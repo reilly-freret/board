@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="landing.js"></script>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <!-- Our JS -->
+  <script>
+    var currRoom;
+
+    function checkDemo() {
+      //using GET because everything is on the server side
+      console.log("we in it");
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", "checkDemo.php", true);
+      xmlHttp.send(null);
+      location.reload();
+    }
+
+    function checkHelp() {
+      //using GET because everything is on the server side
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", "checkHelp.php", true);
+      xmlHttp.send(null);
+      location.reload();
+    }
+
+    function joinRoom() {
+      var joinRoom = document.getElementById("sessionName").value;
+      var dataString = "check-class-exist-API.php?name=" + encodeURIComponent(joinRoom);
+      var xmlHttp = new XMLHttpRequest();
+
+      xmlHttp.open("GET", dataString, true);
+      xmlHttp.send(null);
+    }
+
+    function joinRoomTa() {
+      var joinRoom = document.getElementById("sessionNameTa").value;
+      var dataString = "check-class-exist-API.php?name=" + encodeURIComponent(joinRoom);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", dataString, true);
+      xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlHttp.addEventListener("load", function(event) {
+        var jsonData = JSON.parse(event.target.responseText);
+        if (!jsonData.exist) {
+          alert("Couldn't find a session with that name.");
+        }
+      }, false);
+      xmlHttp.send(null);
+    }
+
+    function createRoom() {
+      var newRoom = document.getElementById("sessionNameTa").value;
+      var dataString = "newRoom=" + encodeURIComponent(newRoom);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("POST", "newRoom.php", true);
+      xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlHttp.addEventListener("load", function(event) {
+        var jsonData = JSON.parse(event.target.responseText);
+        if (jsonData.success) {
+          alert("New Session Created!");
+          joinRoomTa();
+        } else {
+          alert("That Didnt Work!");
+        }
+        getRoom();
+        location.reload();
+      }, false);
+      xmlHttp.send(dataString);
+    }
+
+    function joinDemo() {
+      //using GET because everything is on the server side
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", "joinDemo.php", true);
+      xmlHttp.send(null);
+      location.reload();
+    }
+
+
+    function joinHelp() {
+      //using GET because everything is on the server side
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", "joinHelp.php", true);
+      xmlHttp.send(null);
+      location.reload();
+    }
+  </script>
+</head>
+
+<body ng-app='board'>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="landing.html">board</a>
+
+    <a>
+      <button type="button" class="btn btn-outline-danger btn-lg btn-sm" id="logoutButton" onclick="logout()">Log Out</button>
+    </a>
+  </nav>
+
+  <div class="container" class="mx-auto" style="width: 90%; position:relative; top:40px; max-width:600px" id="studentJoin">
+    <div id="buttonList" class="row align-items-center">
+      <h2 class="mx-auto">Select a Session</h2>
+    </div>
+    <form>
+      <div class="form-group">
+        <label for="sessionName"></label>
+        <input type="text" class="form-control" id="sessionName" placeholder="Session Name">
+      </div>
+      <button class="btn btn-outline-primary btn-lg btn-block" id="studentJoinSession">Join Session</button>
+    </form>
+
+    <div class="row" style="padding-top:9px">
+      <div class="col">
+        <button class="btn btn-outline-success btn-lg btn-block" onclick="joinDemo()">Join Demo</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-success btn-lg btn-block" onclick="joinHelp()">Join Help</button>
+      </div>
+    </div>
+    <br><br>
+  </div>
+
+  <div class="container" class="mx-auto" style="width: 90%; position:relative; top:40px; max-width:600px" id="taStuff" hidden>
+    <div id="buttonListTa" class="row align-items-center">
+      <h2 class="mx-auto">Select a Session</h2>
+    </div>
+
+
+    <form>
+      <div class="form-group">
+        <label for="sessionName"></label>
+        <input type="text" class="form-control" id="sessionNameTa" placeholder="Session Name">
+      </div>
+      <button class="btn btn-outline-success btn-lg btn-block" id="taJoinRoom">Join Session</button>
+      <button class="btn btn-outline-info btn-lg btn-block" onclick="createRoom()" id="taCreateRoom">Create Session</button>
+    </form>
+
+    <div class="row" style="padding-top:9px">
+      <div class="col">
+        <button class="btn btn-outline-danger btn-lg btn-block" onclick="checkDemo()">Check Out Demo</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-danger btn-lg btn-block" onclick="checkHelp()">Check Out Help</button>
+      </div>
+    </div>
+    <br><br>
+  </div>
+
+
+  <div class="container" class="mx-auto" style="width: 90%; position:relative; top:40px; max-width:600px" id="lists" hidden>
+    <div id="buttonList" class="row align-items-center">
+      <h4 class="mx-auto" id="currentRoom"></h4>
+    </div><br>
+
+    <div class="row">
+      <div class="col">
+        <div ng-controller="demoList">
+          <table class="table">
+
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Demo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="user in users">
+                <td>{{user.fname}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+      <div class="col">
+        <div ng-controller="helpList">
+          <table class="table">
+
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Help</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="user in users">
+                <td>{{user.fname}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    var fetch = angular.module('board', []);
+
+    fetch.controller('demoList', ['$scope', '$http', function($scope, $http) {
+
+      $http({
+        method: 'get',
+        url: 'demo.php',
+        //params: {room: currRoom}
+      }).then(function successCallback(response) {
+        $scope.users = response.data;
+      });
+
+    }]);
+
+    fetch.controller('helpList', ['$scope', '$http', function($scope, $http) {
+
+      $http({
+        method: 'get',
+        url: 'help.php'
+      }).then(function successCallback(response) {
+        $scope.users = response.data;
+      });
+
+    }]);
+  </script>
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <!-- Our JS -->
+  <script src="main.js"></script>
+</head>
+
+
+
+<body>
+
+  <div class="container" class="mx-auto" style="width: 320px; position:relative; top:40px" id="landingPage">
+
+    <div id="buttonList" class="row align-items-center">
+      <h1 class="mx-auto">board</h1><br><br>
+      <button id="studentLoginLanding" type="button" class="btn btn-success btn-lg btn-block">Student Login</button>
+      <button id="taLoginLanding" type="button" class="btn btn-primary btn-lg btn-block">TA Login</button>
+      <button id="registerLanding" type="button" class="btn btn-dark btn-lg btn-block">Register</button>
+    </div>
+
+    <div id="studentLogin" hidden>
+      <h2>Student Login</h2>
+      <form action="slogin.php" method="POST">
+        <div class="form-group">
+          <label for="susername">Username</label>
+          <input type="text" class="form-control" name="susername" id="susername" aria-describedby="emailHelp" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <label for="spassword">Password</label>
+          <input type="password" class="form-control" name="spassword" id="spassword" placeholder="Password">
+        </div>
+        <button id="studentLoginBack" type="button" class="btn btn-danger">Back</button>
+        <button type="button" class="btn btn-primary" id="studentLoginButton">Log In</button>
+      </form>
+    </div>
+
+    <div id="taLogin" hidden>
+      <h2>TA Login</h2>
+      <form action="tlogin.php" method="POST">
+        <div class="form-group">
+          <label for="tusername">Username</label>
+          <input type="text" class="form-control" name="tusername" id="tusername" aria-describedby="emailHelp" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <label for="tpassword">Password</label>
+          <input type="password" class="form-control" name="tpassword" id="tpassword" placeholder="Password">
+        </div>
+        <button id="taLoginBack" type="button" class="btn btn-danger">Back</button>
+        <button type="button" class="btn btn-primary" id="taLoginButton">Log In</button>
+      </form>
+    </div>
+
+    <div id="register" hidden>
+
+      <h2>Register
+      <div id="something" class="btn-group btn-group-toggle" data-toggle="buttons" style="position:absolute; right:15px; top: 2px">
+        <label id="asStudent" class="btn btn-outline-primary active">
+          <input id="regStudentButton" type="radio" name="regOption" value="0" autocomplete="off" checked> Student
+        </label>
+        <label id="asTA" class="btn btn-outline-primary">
+          <input type="radio" name="regOption" value="1" autocomplete="off"> TA
+        </label>
+      </div>
+      </h2>
+
+      <form action="register.php" method="POST">
+        <div class="form-group">
+          <label for="rname">Full Name</label>
+          <input type="text" class="form-control" name="rname" id="rname" aria-describedby="emailHelp" placeholder="First Last">
+        </div>
+        <div class="form-group">
+          <label for="rusername">Username</label>
+          <input type="email" class="form-control" name="rusername" id="rusername" aria-describedby="emailHelp" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <label for="rpassword">Password</label>
+          <input type="password" class="form-control" name="rpassword" id="rpassword" placeholder="Password">
+          <small id="passwordHelpInline" class="text-muted">
+            Must be 4-20 characters long.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="rphone">Phone Number</label>
+          <input type="tel" class="form-control" name="rphone" id="rphone" placeholder="###-###-####">
+        </div>
+        <div class="form-group" id="taAuth" hidden>
+          <label for="rauth">TA Authorization</label>
+          <input type="Text" class="form-control" name="rauth" id="rauth" placeholder="Passcode">
+          <small id="taHelpInLine" class="text-muted">
+            A 6-character code determined by the instructor.
+          </small>
+        </div>
+        <button id="registerBack" type="button" class="btn btn-danger">Back</button>
+        <button type="button" id="regSubmit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>

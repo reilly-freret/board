@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+  <link rel="icon" href="http://makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo-32x32.png" sizes="32x32">
+  <link rel="icon" href="http://makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo-192x192.png" sizes="192x192">
+  <link rel="apple-touch-icon-precomposed" href="http://makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo-180x180.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to get data from MySQL with AngularJS - PHP</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+</head>
+
+<body ng-app='myapp'>
+
+  <div ng-controller="userCtrl">
+
+    <table border="1">
+
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Username</th>
+      </tr>
+
+      <tr ng-repeat="user in users">
+        <td>{{user.fname}}</td>
+        <td>{{user.lname}}</td>
+        <td>{{user.username}}</td>
+      </tr>
+
+    </table>
+  </div>
+
+  <!-- Script -->
+  <script>
+    var fetch = angular.module('myapp', []);
+
+    fetch.controller('demoList', ['$scope', '$http', function($scope, $http) {
+
+      $http({
+        method: 'get',
+        url: 'demo.php'
+      }).then(function successCallback(response) {
+        $scope.users = response.data;
+      });
+
+    }]);
+  </script>
+</body>
+
+</html>
